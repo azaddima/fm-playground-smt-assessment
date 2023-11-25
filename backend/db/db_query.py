@@ -1,4 +1,4 @@
-from .db import db, Data, Code
+from .models import db, Data, Code
 
 def code_exists_in_db(code: str):
   print(db.session.query(Code).filter_by(code=code).first())

@@ -1,9 +1,19 @@
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-
-db = SQLAlchemy()
+from flask_login import UserMixin
 
 
+from config import db
+
+
+class User(db.Model, UserMixin):
+  __tablename__ = 'users'
+  id = db.Column(db.String, primary_key=True, unique=True)
+  email = db.Column(db.String())
+  
+  data = db.relationship('Data', backref='users', lazy=True)
+  
+  def get(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    return user
 
 class Code(db.Model):
   __tablename__ = 'code'
@@ -23,15 +33,5 @@ class Data(db.Model):
   meta = db.Column(db.String())
   
   code_id = db.Column(db.Integer, db.ForeignKey('code.id'), nullable=False)
+  user_id = db.Column(db.String, db.ForeignKey('users.id'), nullable=True)
   
-  
-  
-
-
-
-def init_app(app):
-  db.init_app(app)
-  with app.app_context():
-    print("Creating tables...")
-    db.create_all()
-    migrate = Migrate(app, db)

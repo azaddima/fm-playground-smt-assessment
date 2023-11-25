@@ -1,11 +1,12 @@
 import sys
+sys.path.append("..") # Adds higher directory to python modules path.
 import time
 from datetime import datetime, timedelta
 from flask import Blueprint, request, jsonify, session, make_response, abort
-from utils.db import db, Data
+from db.models import db, Data
 from utils import xmv, z3
 from utils.permalink_generator import generate_passphrase
-from utils.db_query import *
+from db.db_query import *
 import pytz
 aware_datetime = datetime.now(pytz.utc)
 
