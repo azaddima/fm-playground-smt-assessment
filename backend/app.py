@@ -5,16 +5,17 @@ from flask_session import Session
 from config import app
 from routes.playground import *
 
-
 Session(app)
 app.app_context().push()
 CORS(app, supports_credentials=True)
 cache = Cache(app)
 app.register_blueprint(routes)
 
-@app.route('/' , methods=['GET']) 
+
+@app.route('/', methods=['GET'])
 def index():
-  return 'Hello World!'
+    return 'Hello World!'
+
 
 if __name__ == '__main__':
-  app.run(port=8000)
+    app.run(port=8000)

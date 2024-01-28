@@ -9,13 +9,13 @@ const API_URL = import.meta.env.VITE_FMP_API_URL;
  * @returns result
  */
 export async function executeCmdTool(code) {
-  let url = `${API_URL}/run-cmd-tool`;
-  try {
-    const response = await axios.post(url, { code });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
+    let url = `${API_URL}/run-cmd-tool`;
+    try {
+        const response = await axios.post(url, {code});
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
 }
 
 

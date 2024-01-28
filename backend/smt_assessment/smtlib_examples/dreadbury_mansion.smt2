@@ -1,0 +1,29 @@
+; Exercise 3 Task 1
+; Complete the encoding of the Dreadbury Mansion puzzle
+
+; introducing a datatype to represent people in the mansion
+(declare-datatypes () ((Person (Agatha) (Butler) (Charles))))
+
+; functions/predicates to represent killing hates and richer
+(declare-fun killed (Person Person) Bool)
+(declare-fun hates (Person Person) Bool)
+(declare-fun richer (Person Person) Bool)
+
+; encoding of formula (1) someone killed Agatha
+(assert (exists ((x Person)) (killed x Agatha)))
+(assert (forall ((x Person) (y Person))
+            (=> (killed x y) (and (hates x y) (not (richer x y ))))))
+(assert (forall ((x Person))
+            (=> (hates Agatha x) (not (hates Charles x)))))
+(assert (and (hates Agatha Agatha) (hates Agatha Charles)))
+(assert (forall ((x Person))
+            (=> (not (richer x Agatha)) (hates Butler x))))
+(assert (forall ((x Person))
+            (=> (hates Agatha x) (hates Butler x))))
+(assert (forall ((x Person)) (exists ((y Person))
+            (not (hates x y)))))
+
+
+(check-sat)
+(get-model)
+
