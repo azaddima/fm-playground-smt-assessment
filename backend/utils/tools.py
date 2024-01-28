@@ -9,31 +9,28 @@ from backend.smt_assessment.z3_app import run_z3
 
 def run_tool(code: str) -> str:
     """
-    Run the code in nuXmv and return the output.
+     Run the code in z3 and return the output.
 
-    Parameters:
-      code (str): the code to run
+     Parameters:
+       code (str): the code to run
 
-    Returns:
-      str: the output of the code if successful, otherwise the error or timeout message
+     Returns:
+       str: the output of the code if successful, otherwise the error or timeout message
 
-    """
+     TODO (maybe): Logging the resource usage of the subprocess. Windows: psutil, Linux: resource.getrusage(resource.RUSAGE_CHILDREN)
+     """
+    tmp_file = tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.smt2')
+    tmp_file.write(code.strip())
+    tmp_file.close()
+    command = ["z3", "-smt2", tmp_file.name]
+    try:
+        result = subprocess.run(command, capture_output=True, text=True, timeout=5)
+        os.remove(tmp_file.name)
 
-    # tmp_file = tempfile.NamedTemporaryFile(mode='w', delete=False)
-    # tmp_file.write(code.strip())
-    # tmp_file.close()
-    # print(os.name)
-    #
-    # command = ["cmd.exe", "/c", "dir"] if os.name == 'nt' else ["ls", "-l"]
-    #
-    # try:
-    #     result = subprocess.run(command, capture_output=True, text=True, timeout=60)
-    #     os.remove(tmp_file.name)
-    #     if result.returncode != 0:
-    #         return result.stderr
-    #     return result.stdout + result.stderr
-    # except subprocess.TimeoutExpired:
-    #     os.remove(tmp_file.name)
-    #     return f"<i style='color: red;'>Timeout: Process timed out after 60 seconds.</i>"
-
-    return run_z3('miau')
+        return (("-------------------------------\n\n"
+                 "Feedback: "
+                 "\nInput is not the same as solution\n\n-------------------------------\n\n")
+                + result.stdout)
+    except subprocess.TimeoutExpired:
+        os.remove(tmp_file.name)
+        return "Process timed out after {} seconds".format(5)
