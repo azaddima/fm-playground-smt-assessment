@@ -1,26 +1,40 @@
+import sys
+
+sys.path.append("..")  # Adds higher directory to python modules path.
 from z3 import *
 
 
-def run_z3(code: str):
-    puzzle_input = smt2_example_parser('puzzle.smt2')
-
+def run_assessment(input_code):
+    code_input = parse_smt2_string(input_code)
     solver = z3.Solver()
-    solver.add(puzzle_input)
-    print(solver)
-
-    print(solver.to_smt2())
-
-    return 'run z3'
+    solver.add(code_input)
+    output = solver.check()
+    return str(output) + str(solver.model())
 
 
 def smt2_example_parser(filename: str):
-    return parse_smt2_file('./smtlib_examples/' + filename)
+    """
+        loads a smt2 file and returns an AstVector
+
+        Parameters:
+            filename (str): the filename of the smt2 file
+
+        Returns:
+            AstVector: array of the asserts
+    """
+
+    try:
+        output = parse_smt2_file('./smtlib_examples/' + filename)
+        return output
+    except Exception as err:
+        print(err)
+        return err
 
 
-# get model of smt2 file
+if __name__ == '__main__':
+    # Todo: remove
+    for x in range(0, len(sys.argv)):
+        print(str(x) + " " + sys.argv[x])
 
-# input2 = smt2_example_parser('puzzle.smt2')
-
-# print(z3.Model(input2))
-
-print(run_z3('puzzle.smt2'))
+    code = sys.argv[1]
+    print(run_assessment(code))
