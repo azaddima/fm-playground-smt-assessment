@@ -34,7 +34,7 @@ def smt2_example_parser(filename: str):
 if __name__ == '__main__':
     # Todo: remove
     for x in range(0, len(sys.argv)):
-        print(str(x) + " " + sys.argv[x])
+        print("COMMAND ARG " + str(x) + "\n " + sys.argv[x])
 
     code = sys.argv[1]
     print(run_assessment(code))

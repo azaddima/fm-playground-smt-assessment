@@ -21,7 +21,7 @@ def run_tool(code: str) -> str:
     tmp_file.write(code.strip())
     tmp_file.close()
 
-    result = str(run_assessment(code, tmp_file))
+    result = print_formatted_feedback(str(run_assessment(code, tmp_file)))
     result += str(run_z3(code, tmp_file))
 
     os.remove(tmp_file.name)
@@ -39,7 +39,7 @@ def run_z3(code: str, tmp_file: tempfile) -> str:
 
 
 def run_assessment(code: str, tmp_file: tempfile) -> str:
-    command = ["python3", './smt_assessment/z3_app.py', code]
+    command = ["python3", './smt_assessment/assessment_smt.py', code]
     try:
         result = subprocess.run(command, capture_output=True, text=True, timeout=5)
         return result.stdout + result.stderr
@@ -51,12 +51,11 @@ def run_assessment(code: str, tmp_file: tempfile) -> str:
 
 def print_formatted_feedback(message: str):
     return ("-------------------------------\n\n"
-            "Feedback: {} "
-            "\n \n\n-------------------------------\n\n").format(message)
+            "FEEDBACK:\n{}"
+            "\n\n\n-------------------------------\n\n").format(message)
 
 
-sample_code = """
-    (set-option :produce-models true)
+sample_code = """(set-option :produce-models true)
     (declare-const x Int)
     (declare-const y Int)
     (declare-const z Int)
