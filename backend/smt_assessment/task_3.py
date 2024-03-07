@@ -5,7 +5,7 @@ from z3 import *
 
 S = Solver()
 
-S.from_file("./smtlib_examples//houses.smt2")
+userFromulas = parse_smt2_file("./smtlib_examples//houses.smt2")
 a, b, c, d, e, f = Bools('a b c d e f')
 formulas = [a == And(b, c, d, e, f),
             b == And(Not(c), Not(d), Not(e), Not(f)),
@@ -15,17 +15,18 @@ formulas = [a == And(b, c, d, e, f),
             f == And(Not(a), Not(b), Not(c), Not(d), Not(e))]
 count = 0
 i = 0
-print(S)
 for formula in formulas:
-    S.push()
-    S.add(Not(formula))
-    if S.check() == unsat:
-        count +=1
-    else:
-        print("Wrong conversion of the formula. formula " + str(i + 1) + " is wrong")
+    for userFormula in userFromulas:
+        S.push()
+        S.add(Not(userFormula == formula))
+        if S.check() == unsat:
+            count +=1
+        else:
+            print("Wrong conversion of the formula. formula " + str(i + 1) + " is wrong")
     i += 1
+    S.pop()
 
-if(count == len(formulas)):
+if(count == len(formulas)*len(userFromulas)):
     print('correct evaluation of the formula')
 
 

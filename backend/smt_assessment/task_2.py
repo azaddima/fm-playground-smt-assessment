@@ -18,17 +18,7 @@ for element in lst:
     else:
         print("Wrong conversion of the formula. value of " + str(element) +" is wrong")
     i += 1
+print(S)
 if count == len(lst):
     print("correct evaluation of the given task.")
-
-'''S.add(star == -1)
-S.add(cloud == 495)
-S.add(snowman == -136)
-S.add(apple == -323)
-S.add(secret == -186)
-if S.check() == sat:
-    print("correct evaluation of the task given")
-else:
-    print("Wrong conversion of xor statement")
-'''
 
