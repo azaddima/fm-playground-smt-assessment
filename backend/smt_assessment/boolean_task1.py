@@ -4,11 +4,18 @@ from z3 import *
 
 
 S = Solver()
+
 S.from_file("./smtlib_examples//boolean_intro.smt2")
-S.from_string("(assert (not (=> p (or (and q (not r)) (and (not q) r)))))")
+p, q, r = Bools('p q r')
+formula = Not(Implies(p, Or(And(q, Not(r)), And(Not(q), r))))
+S.add(formula)
+#S.from_string("(assert (not (=> p (or (and q (not r)) (and (not q) r)))))")
 if S.check() == unsat:
     print("correct evaluation of the task given")
 else:
-    print("try again at line 6")
+    print("Wrong conversion of xor statement")
+
+
+
 
 
