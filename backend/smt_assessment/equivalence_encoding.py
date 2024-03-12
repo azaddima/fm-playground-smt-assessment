@@ -190,7 +190,7 @@ if __name__ == '__main__':
 
     # get list of the asserts
     s.push()
-    s.from_file("./smtlib_examples/houses.smt2")
+    s.from_file("./smtlib_examples/mcqs.smt2")
     user_asserts = s.assertions()
     s.pop()
 
