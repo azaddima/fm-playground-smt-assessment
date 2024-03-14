@@ -1,4 +1,4 @@
-;Introduce three new variables of type boolean
+;make an encoding for the exclusive or operation using ands and ors
 (declare-const p Bool)
 (declare-const q Bool)
 (declare-const r Bool)

@@ -33,8 +33,17 @@ def evaluate_task4():
 
 def evaluate_task5():
 
-    student_encoding = parse_smt2_file("./smtlib_examples//decision_trees.smt2")
-    encoding_solution = parse_smt2_file("./solutions//decision_trees.smt2")
+    student_encoding = parse_smt2_file("./smtlib_examples//decisionTrees.smt2")
+    encoding_solution = parse_smt2_file("./solutions//decisionTrees.smt2")
+
+    return enc.create_feedback(enc.comparison(student_encoding, encoding_solution), student_encoding, encoding_solution)
+def evaluate_task6():
+
+    student_encoding = parse_smt2_file("./smtlib_examples//checkTheory.smt2")
+    encoding_solution = parse_smt2_file("./solutions//checkTheory.smt2")
 
     return enc.create_feedback(enc.comparison(student_encoding, encoding_solution), student_encoding, encoding_solution)
 
+if __name__ == '__main__':
+
+    print(evaluate_task6())

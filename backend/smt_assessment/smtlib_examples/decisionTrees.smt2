@@ -1,3 +1,6 @@
+;We have two similar decision trees, one is the pruned version of the other.
+;Check if there are any cases in one decision tree that are not explored by the other
+;(check if decision tree pruning covers the same cases )
 (declare-const sex Bool) ; feature X[2]
 (declare-const class Real) ; feature X[3]
 (declare-const fare Real)

@@ -177,12 +177,12 @@ def create_feedback(comparison_data, input_asserts, reference_asserts):
     feedback += "The following asserts are equivalent: \n"
     for assert_pair in comparison_data['equal_asserts']:
         feedback += f"Input asserts: {[input_asserts[user_assert] for user_assert in assert_pair[0]]}\n"
-        feedback += f"Reference asserts: {[reference_asserts[reference_assert] for reference_assert in assert_pair[1]]}\n"
+        #feedback += f"Reference asserts: {[reference_asserts[reference_assert] for reference_assert in assert_pair[1]]}\n"
 
     return feedback
 
 
-if __name__ == '__main__':
+'''if __name__ == '__main__':
     # Define solver with new Context()
 
     # working_Context = Context()
@@ -224,3 +224,4 @@ if __name__ == '__main__':
             print(formulas_test[index])
 
     print('Printing asserts which are entailed by the solution ....')
+'''
