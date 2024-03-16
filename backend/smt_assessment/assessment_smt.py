@@ -1,40 +1,73 @@
+import pathlib
+import subprocess
 import sys
+import tempfile
+
+from equivalence_encoding import comparison
+
+from equivalence_encoding import create_feedback
 
 sys.path.append("..")  # Adds higher directory to python modules path.
 from z3 import *
+import json
+
+debug = True
 
 
-def run_assessment(input_code):
-    code_input = parse_smt2_string(input_code)
-    solver = z3.Solver()
-    solver.add(code_input)
-    output = solver.check()
-    return str(output) + str(solver.model())
-
-
-def smt2_example_parser(filename: str):
+def run_assessment(user_input, task):
     """
-        loads a smt2 file and returns an AstVector
+    Run the assessment and returns feedback for the user.
+    Args:
+        user_input:
+        task:
+    Returns: feedback
 
-        Parameters:
-            filename (str): the filename of the smt2 file
-
-        Returns:
-            AstVector: array of the asserts
     """
 
-    try:
-        output = parse_smt2_file('./smtlib_examples/' + filename)
-        return output
-    except Exception as err:
-        print(err)
-        return err
+    # get solution filename
+    solution_file = solution_path(task)
+
+    s = Solver()
+
+    # Create backtracking point to load only solution asserts
+    s.push()
+    s.from_file('./smt_assessment/solutions/' + solution_file)
+    solution_asserts = s.assertions()
+    s.pop()
+
+    # Create backtracking point to load only user asserts
+    s.push()
+    s.from_string(user_input)
+    user_asserts = s.assertions()
+
+    s.pop()
+
+    # run the encoding
+    comparison_data = comparison(user_asserts, solution_asserts)
+    feedback = create_feedback(comparison_data, user_asserts, solution_asserts)
+
+    return feedback
+
+
+def solution_path(task):
+    """
+    Takes in task value and return the path of the solution file
+    Args:
+        task:
+
+    Returns:
+        file_path
+
+    """
+    with open('./smt_assessment/solutions/solution_files.json', 'r') as file:
+        data = json.load(file)
+
+    fileName = data[task]
+
+    return fileName
 
 
 if __name__ == '__main__':
-    # Todo: remove
-    for x in range(0, len(sys.argv)):
-        print("COMMAND ARG " + str(x) + "\n " + sys.argv[x])
-
-    code = sys.argv[1]
-    print(run_assessment(code))
+    user_input = sys.argv[1]
+    task = sys.argv[2]
+    print(run_assessment(user_input, task))

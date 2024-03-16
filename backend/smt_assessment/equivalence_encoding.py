@@ -74,7 +74,6 @@ def comparison(input_asserts, reference_asserts: list):
     """
 
     # TODO: initial check if solution is wholey equal to the reference solution
-
     # Create int indices for input and reference asserts for easier computation
     input_indices = list(range(len(input_asserts)))
     reference_indices = list(range(len(reference_asserts)))
@@ -112,7 +111,6 @@ def comparison(input_asserts, reference_asserts: list):
 
         # Generate all possible combinations of input indices for given length
         input_combos = combinations(input_indices, combinations_length)
-        # print(input_combos)
 
         # Compare with all combinations of reference asserts
         for input_combo in input_combos:
@@ -123,7 +121,6 @@ def comparison(input_asserts, reference_asserts: list):
             for j in range(len(reference_indices)):
                 if restart:
                     break
-
                 reference_combos = combinations(reference_indices, j + 1)
 
                 for reference_combo in reference_combos:
@@ -174,54 +171,25 @@ def create_feedback(comparison_data, input_asserts, reference_asserts):
     for index in comparison_data["valid_input_indices"]:
         feedback += f"{index}: {input_asserts[index]}\n"
 
-    feedback += "The following asserts are equivalent: \n"
+    feedback += "The following asserts are correct: \n"
     for assert_pair in comparison_data['equal_asserts']:
-        feedback += f"Input asserts: {[input_asserts[user_assert] for user_assert in assert_pair[0]]}\n"
-        #feedback += f"Reference asserts: {[reference_asserts[reference_assert] for reference_assert in assert_pair[1]]}\n"
+        for i in range(len(assert_pair[0])):
+            feedback += f"{i}{assert_pair[0][i]}: {input_asserts[assert_pair[0][i]]}\n"
 
     return feedback
 
 
-'''if __name__ == '__main__':
+if __name__ == '__main__':
     # Define solver with new Context()
 
     # working_Context = Context()
     s = Solver()
-
-    # get list of the asserts
-    s.push()
     s.from_file("./smtlib_examples/mcqs.smt2")
     user_asserts = s.assertions()
     s.pop()
 
-    ### SOLUTION
-    a, b, c, d, e, f = Bools('a b c d e f')
-    formulas = [
-        a == And(b, c, d, e, f),
-        b == And(Not(c), Not(d), Not(e), Not(f)),
-        c == And(a, b),
-        d == Or(And(a, Not(b), Not(c)), And(Not(a), b, Not(c)),
-                And(Not(a), Not(b), c)),
-        e == And(Not(a), Not(b), Not(c), Not(d)),
-        f == And(Not(a), Not(b), Not(c), Not(d), Not(e)),
-    ]
+    print(s.to_smt2())
 
-    # TEST FORMULAS
-    formulas_test = [
-        a == And(a, b, c),
-        a == And(b, c, d, e, f),
-        a == And(d, e, f),
-        b == And(Not(c), Not(d), Not(e), Not(f)),
-    ]
-
-    comparison_data = comparison(formulas_test, formulas)
-
-    print(comparison_data['equal_asserts'])
-
-    print('Printing correct asserts ....')
-    for asserts in comparison_data['equal_asserts']:
-        for index in asserts[0]:
-            print(formulas_test[index])
-
-    print('Printing asserts which are entailed by the solution ....')
-'''
+    comparison_data = comparison(user_asserts, user_asserts)
+    created_feedback = create_feedback(comparison_data, user_asserts, user_asserts)
+    print(created_feedback)

@@ -15,8 +15,10 @@ const Playground = ({editorValue, setEditorValue, language, setLanguage}) => {
         setOutput('')
         try {
             setIsExecuting(true);
+            
 
-            executeCmdTool(editorValue)
+            // Appends currentTask value to editorValue for loading the correct assessment
+            executeCmdTool(currentTask + editorValue)
                 .then((res) => {
                     setOutput(res.result)
                     setIsExecuting(false);
@@ -36,7 +38,7 @@ const Playground = ({editorValue, setEditorValue, language, setLanguage}) => {
 
         const loadFile = async (value) => {
             try {
-                const response = await fetch(fileList[value]);
+                const response = await fetch("editor_presets/" + fileList[value]);
                 if (!response.ok) {
                     throw new Error('Failed to load file');
                 }
@@ -93,6 +95,7 @@ const Playground = ({editorValue, setEditorValue, language, setLanguage}) => {
                             language={language}
                             setLanguage={setLanguage}
                             theme='vs-dark'
+                            currentTask={currentTask}
                         />
                         <MDBBtn
                             className='mx-auto my-3'
