@@ -70,6 +70,10 @@ const Playground = ({editorValue, setEditorValue, language, setLanguage}) => {
                 <option value={"1"}>Lecture 1</option>
                 <option value={"3"}>Boolean Task</option>
                 <option value={"4"}>Mathematics</option>
+                <option value={"5"}>Check Theory</option>
+                <option value={"6"}>MCQS</option>
+                <option value={"7"}>Knapsack</option>
+                <option value={"8"}>Decision Trees</option>
             </select>
             <div className="row">
                 <div className="col-md-6" style={{backgroundColor: 'white'}}>

@@ -2,5 +2,9 @@
   "1": "editor_presets/Lecture1.txt",
   "2": "editor_presets/Lecture2.txt",
   "3": "editor_presets/boolean_intro.smt2",
-  "4": "editor_presets/mathematics.smt2"
+  "4": "editor_presets/mathematics.smt2",
+  "5": "editor_presets/checkTheory.smt2",
+  "6": "editor_presets/mcqs.smt2",
+  "7": "editor_presets/knapsack.smt2",
+  "8": "editor_presets/decisionTrees.smt2"
 }
