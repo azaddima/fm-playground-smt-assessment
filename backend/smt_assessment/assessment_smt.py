@@ -37,9 +37,7 @@ def run_assessment(user_input, task):
 
     # Create backtracking point to load only user asserts
     s.push()
-    s.from_string(user_input)
-    user_asserts = s.assertions()
-
+    user_asserts = parse_smt2_string(user_input)
     s.pop()
 
     # run the encoding
