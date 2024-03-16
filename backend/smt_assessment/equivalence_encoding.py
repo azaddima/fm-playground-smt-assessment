@@ -146,7 +146,7 @@ def comparison(input_asserts, reference_asserts: list):
                         restart = True
                         break
 
-        if combinations_length == len(input_indices):
+        if combinations_length == len(input_indices) + 1:
             process_finished = True
 
     data = {
@@ -167,14 +167,10 @@ def create_feedback(comparison_data, input_asserts, reference_asserts):
         feedback: string with feedback for the user
     """
 
-    feedback = "The following asserts are entailed by the reference asserts: \n"
-    for index in comparison_data["valid_input_indices"]:
-        feedback += f"{index}: {input_asserts[index]}\n"
-
-    feedback += "The following asserts are correct: \n"
+    feedback = "The following asserts are correct: \n"
     for assert_pair in comparison_data['equal_asserts']:
         for i in range(len(assert_pair[0])):
-            feedback += f"{i}{assert_pair[0][i]}: {input_asserts[assert_pair[0][i]]}\n"
+            feedback += f"{assert_pair[0][i] + 1}: {input_asserts[assert_pair[0][i]]}\n"
 
     return feedback
 
