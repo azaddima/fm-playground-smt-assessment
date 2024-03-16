@@ -30,25 +30,6 @@ const CodeEditor = (props) => {
         setLanguage(props.language.id);
     }, [props.language.id]);
 
-    useEffect(() => {
-        // Function to load file contents
-        const loadFile = async () => {
-            try {
-                const response = await fetch("./smtlib_examples//decisionTrees.smt2");
-                if (!response.ok) {
-                    throw new Error('Failed to load file');
-                }
-                const content = await response.text();
-                setInternalEditorValue(content);
-            } catch (error) {
-                console.error('Error loading file:', error);
-            }
-        };
-
-        // Call the loadFile function
-        loadFile();
-    }, [props.editorValue]);
-
 
     /**
      * Handles the editor did mount event. On mount, registers all the languages.
@@ -119,7 +100,7 @@ const CodeEditor = (props) => {
                     height={props.height}
                     width="100%"
                     language={language}
-                    defaultValue={";enter code here"}
+                    defaultValue={internalEditorValue}
                     value={internalEditorValue}
                     theme={props.theme}
                     options={{

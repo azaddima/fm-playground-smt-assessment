@@ -1,0 +1,39 @@
+Welcome to the first lecture of our journey through SMT
+
+Here, you'll learn about how to navigate through SMT and do a bunch of tasks to figure it out yourself!
+
+Let's introduce SMT.
+First, let's introduce Different ways to describe constants in SMT.
+
+There is this common way of describing constants:
+
+(declare-const <constant name> <data type>)
+
+a constant can have the following data types in SMT:
+
+Bool -> Boolean
+Int -> Integer
+Real -> real values(including decimals)
+
+Now let us get familiar with asserts.
+
+In Z3, a set of formulas are said to be satisfiable if all the asserts are evaluated to be true.
+
+an assert is declared like this:
+
+(assert (<formula>))
+
+An important thing to note in Z3 smt is that the encoded formulas are in an infix notation, i.e,
+a + b will be written as (+ a b) and more complex formulas like (a+b)*(c+d) = e will be written as
+(= (* (+ a b) (+ c d)) e)
+
+for boolean formulas we have the operators:
+
+and
+or
+not (! doesn't work here)
+xor
+=>
+
+Looks like you're ready for the first couple of tasks.
+
