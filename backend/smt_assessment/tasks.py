@@ -3,6 +3,7 @@ sys.path.append("..")  # Adds higher directory to python modules path.
 from z3 import *
 import equivalence_encoding as enc
 
+#Evaluating each task presented to the user
 def evaluate_task1():
 
     student_encoding = parse_smt2_file("./smtlib_examples//boolean_intro.smt2")
@@ -44,6 +45,3 @@ def evaluate_task6():
 
     return enc.create_feedback(enc.comparison(student_encoding, encoding_solution), student_encoding, encoding_solution)
 
-if __name__ == '__main__':
-
-    print(evaluate_task6())

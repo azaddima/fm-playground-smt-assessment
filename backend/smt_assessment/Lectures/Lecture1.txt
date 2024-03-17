@@ -37,3 +37,10 @@ xor
 
 Looks like you're ready for the first couple of tasks.
 
+Now, let us look at quantifiers in z3 smt
+
+forall
+exists
+
+
+

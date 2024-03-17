@@ -18,7 +18,7 @@ def check_equivalence(input_expr, reference_expr) -> CheckSatResult:
     s.push()
 
     # Convert asserts lists intro CNF and assert disequation (negation of equation)
-    s.add(And(input_expr) != And(reference_expr))
+    s.add(Not(input_expr == reference_expr))
     check_sat = s.check()
     s.pop()
 
@@ -78,6 +78,7 @@ def comparison(input_asserts, reference_asserts: list):
     input_indices = list(range(len(input_asserts)))
     reference_indices = list(range(len(reference_asserts)))
 
+
     # We want to remove the input asserts that are not entailed by the reference asserts and vice versa
     # Check for entailment of input asserts and remove non-valid asserts
     for i in range(len(input_indices)):
@@ -96,6 +97,7 @@ def comparison(input_asserts, reference_asserts: list):
     # Generate all possible combinations of input indices for given length
     # and compare with all combinations of reference indices
     equal_asserts = []
+    unequal_asserts = []
 
     process_finished = False
     combinations_length = 0
@@ -146,13 +148,14 @@ def comparison(input_asserts, reference_asserts: list):
                         restart = True
                         break
 
-        if combinations_length == len(input_indices):
+        if combinations_length == len(input_indices) + 1:
             process_finished = True
 
     data = {
         "valid_input_indices": valid_input_indices,
         "valid_reference_indices": valid_reference_indices,
         'equal_asserts': equal_asserts,
+        "unequal_asserts": unequal_asserts
     }
 
     return data
@@ -166,30 +169,27 @@ def create_feedback(comparison_data, input_asserts, reference_asserts):
     Returns: 
         feedback: string with feedback for the user
     """
-
-    feedback = "The following asserts are entailed by the reference asserts: \n"
-    for index in comparison_data["valid_input_indices"]:
-        feedback += f"{index}: {input_asserts[index]}\n"
-
-    feedback += "The following asserts are correct: \n"
+    feedback = ""
+    correct_asserts = []
+    feedback += str(comparison_data["equal_asserts"]) + "The following asserts are correct: \n"
     for assert_pair in comparison_data['equal_asserts']:
         for i in range(len(assert_pair[0])):
             feedback += f"{i}{assert_pair[0][i]}: {input_asserts[assert_pair[0][i]]}\n"
+            correct_asserts.append(input_asserts[assert_pair[0][i]])
+
+
+
+    if len(comparison_data["equal_asserts"]) == len(input_asserts):
+        feedback+="\n\n\nCORRECT SOLUTION\n\n\n"
+    else:
+        feedback += "The following asserts are incorrect: \n"
+        for assrt in input_asserts:
+            if assrt in correct_asserts:
+                continue
+            else:
+                feedback += str(assrt) + "\n"
+        feedback += "\n\n\nINCORRECT SOLUTION\n\n\n"
 
     return feedback
 
 
-if __name__ == '__main__':
-    # Define solver with new Context()
-
-    # working_Context = Context()
-    s = Solver()
-    s.from_file("./smtlib_examples/mcqs.smt2")
-    user_asserts = s.assertions()
-    s.pop()
-
-    print(s.to_smt2())
-
-    comparison_data = comparison(user_asserts, user_asserts)
-    created_feedback = create_feedback(comparison_data, user_asserts, user_asserts)
-    print(created_feedback)
