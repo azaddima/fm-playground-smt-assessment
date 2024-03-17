@@ -11,10 +11,3 @@
 (declare-const d Int)
 (declare-const e Int)
 
-(assert (= 36 (+ (+ b d)  c)))
-(assert (= 646 (* (+ a a) d)))
-(assert (= 272 (- (*  c a)  c)))
-(assert (= e (- d a  c)))
-
-(check-sat)
-(get-model)
