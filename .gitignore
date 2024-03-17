@@ -298,3 +298,7 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# testing area
+backend/smt_assessment/learn_corner

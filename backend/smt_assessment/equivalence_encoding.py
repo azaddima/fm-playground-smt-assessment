@@ -1,4 +1,5 @@
 import sys
+import time
 
 sys.path.append("..")  # Adds higher directory to python modules path.
 from z3 import *
@@ -77,6 +78,8 @@ def comparison(input_asserts, reference_asserts: list):
     # Create int indices for input and reference asserts for easier computation
     input_indices = list(range(len(input_asserts)))
     reference_indices = list(range(len(reference_asserts)))
+
+
 
 
     # We want to remove the input asserts that are not entailed by the reference asserts and vice versa
@@ -158,6 +161,7 @@ def comparison(input_asserts, reference_asserts: list):
         "unequal_asserts": unequal_asserts
     }
 
+
     return data
 
 
@@ -171,7 +175,7 @@ def create_feedback(comparison_data, input_asserts, reference_asserts):
     """
     feedback = ""
     correct_asserts = []
-    feedback += str(comparison_data["equal_asserts"]) + "The following asserts are correct: \n"
+    feedback +=  "The following asserts are correct: \n"
     for assert_pair in comparison_data['equal_asserts']:
         for i in range(len(assert_pair[0])):
             feedback += f"{i}{assert_pair[0][i]}: {input_asserts[assert_pair[0][i]]}\n"
@@ -182,7 +186,7 @@ def create_feedback(comparison_data, input_asserts, reference_asserts):
     if len(comparison_data["equal_asserts"]) == len(input_asserts):
         feedback+="\n\n\nCORRECT SOLUTION\n\n\n"
     else:
-        feedback += "The following asserts are incorrect: \n"
+        feedback += "\n\nThe following asserts are incorrect: \n"
         for assrt in input_asserts:
             if assrt in correct_asserts:
                 continue

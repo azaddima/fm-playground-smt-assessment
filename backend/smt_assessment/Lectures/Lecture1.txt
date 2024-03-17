@@ -42,5 +42,10 @@ Now, let us look at quantifiers in z3 smt
 forall
 exists
 
+to use a quantifier, we use the following commands:
 
+(forall ((a Bool)(b Bool)(c Bool)) (<expression>)
+
+This has well-adapted you for the tasks to come go on and have a look.
+Keep trying because that is the best way to learn!
 
