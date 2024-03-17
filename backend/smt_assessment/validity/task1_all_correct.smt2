@@ -21,6 +21,5 @@
 (assert (= d (or (and a (not b) (not c)) (and (not a) b (not c))(and (not a) (not b) c))))
 (assert (= e (and (not a) (not b) (not c) (not d))))
 (assert (= f (and (not a) (not b) (not c) (not d) (not e))))
-
 (check-sat)
 (get-model)

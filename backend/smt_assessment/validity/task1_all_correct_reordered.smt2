@@ -15,12 +15,10 @@
 ( declare-const e Bool )
 ( declare-const f Bool )
 
-(assert (= d (or (and a (not b) (not c)) (and (not a) b (not c))(and (not a) (not b) c))))
-(assert (= e (and (not a) (not b) (not c) (not d))))
-(assert (= f (and (not a) (not b) (not c) (not d) (not e))))
-(assert (= c (and a b)))
 (assert (= a (and b c d e f)))
+(assert (= c (and a b)))
 (assert (= b (and (not c) (not d) (not e) (not f))))
+(assert (= d (or (and a (not b) (not c)) (and (not a) b (not c))(and (not a) (not b) c))))
+(assert (= f (and (not a) (not b) (not c) (not d) (not e))))
+(assert (= e (and (not a) (not b) (not c) (not d))))
 
-(check-sat)
-(get-model)

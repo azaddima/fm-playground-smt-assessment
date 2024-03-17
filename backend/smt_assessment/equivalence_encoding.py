@@ -183,7 +183,7 @@ def create_feedback(comparison_data, input_asserts, reference_asserts):
 
 
 
-    if len(comparison_data["equal_asserts"]) == len(input_asserts):
+    if len(comparison_data["equal_asserts"]) == len(input_asserts) and len(input_asserts) > 0:
         feedback+="\n\n\nCORRECT SOLUTION\n\n\n"
     else:
         feedback += "\n\nThe following asserts are incorrect: \n"
