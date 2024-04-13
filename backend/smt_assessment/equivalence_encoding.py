@@ -93,7 +93,7 @@ def comparison(input_asserts, reference_asserts: list):
         if check_entailment(reference_asserts[i], input_asserts) == sat:
             reference_indices.remove(i)
 
-    # save the indices of the input and reference asserts that are are entailed by the other
+    # save the indices of the input and reference asserts that are entailed by the other
     valid_input_indices = input_indices
     valid_reference_indices = reference_indices
 
@@ -133,9 +133,12 @@ def comparison(input_asserts, reference_asserts: list):
                     # check if the input and reference combo are equivalent
                     # if they are, remove the input and reference indices from the valid indices
                     # if they are not, continue to the next combination
+                    input = [input_asserts[i] for i in input_combo]
+                    reference = [reference_asserts[i] for i in reference_combo]
+
                     check_sat = check_equivalence(
-                        [input_asserts[i] for i in input_combo],
-                        [reference_asserts[i] for i in reference_combo],
+                        And(input),
+                        And(reference),
                     )
 
                     if check_sat == unsat:
